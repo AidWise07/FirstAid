@@ -27,6 +27,9 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'aidwise.onrender.com']
 
+CSRF_TRUSTED_ORIGINS = [
+    'https://aidwise.onrender.com',
+]
 
 # Application definition
 
