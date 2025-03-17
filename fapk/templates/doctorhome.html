@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctor's Dashboard</title>
+
+    <!-- TailwindCSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome CDN for Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-gray-100 font-sans">
+    <!-- Navigation Bar -->
+    <nav class="bg-blue-500 shadow-md">
+        <div class="container mx-auto flex justify-between items-center p-4">
+            <div class="text-white text-2xl font-semibold">
+                <i class="fas fa-user-md"></i> Doctor Dashboard
+            </div>
+            <div class="flex space-x-6">
+                <a href="#" class="text-white hover:text-gray-200">Home</a>
+                <a href="/docappointments/" class="text-white hover:text-gray-200">Appointments</a>
+                <a href="/patient/" class="text-white hover:text-gray-200">Patients</a>
+                <a href="/docprofile/" class="text-white hover:text-gray-200">Profile</a>
+                <a href="/logout" class="text-white hover:text-gray-200">Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Welcome Section -->
+    <section class="bg-blue-100 py-16">
+        <div class="container mx-auto text-center">
+
+            <h1 class="text-4xl font-semibold text-gray-800">Welcome, {{doc.doctorname}}</h1>
+            <p class="text-lg text-gray-600 mt-2">Your personalized dashboard for managing patients and appointments.</p>
+        </div>
+    </section>
+
+    <!-- Dashboard Section -->
+    <section class="container mx-auto py-12">
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+            <!-- Card 1: Appointments -->
+            <div class="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition duration-300">
+                <div class="flex items-center mb-4">
+                    <i class="fas fa-calendar-check text-blue-500 text-3xl"></i>
+                    <h3 class="text-xl font-semibold ml-4">Appointments</h3>
+                </div>
+                <p class="text-gray-700 mb-4">Manage your upcoming appointments and keep track of patients.</p>
+                <a href="/docappointments/" class="text-blue-500 font-semibold hover:underline">View Appointments</a>
+            </div>
+
+            <!-- Card 2: Patients -->
+            <div class="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition duration-300">
+                <div class="flex items-center mb-4">
+                    <i class="fas fa-user-injured text-green-500 text-3xl"></i>
+                    <h3 class="text-xl font-semibold ml-4">Patients</h3>
+                </div>
+                <p class="text-gray-700 mb-4">View patient profiles, histories, and related medical information.</p>
+                <a href="/patient/" class="text-green-500 font-semibold hover:underline">View Patients</a>
+            </div>
+
+            <!-- Card 3: Profile -->
+            <div class="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition duration-300">
+                <div class="flex items-center mb-4">
+                    <i class="fas fa-user text-yellow-500 text-3xl"></i>
+                    <h3 class="text-xl font-semibold ml-4">Profile</h3>
+                </div>
+                <p class="text-gray-700 mb-4">Update your profile, including contact info, password, and more.</p>
+                <a href="/docprofile/" class="text-yellow-500 font-semibold hover:underline">Edit Profile</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer Section -->
+    <footer class="bg-blue-500 py-4">
+        <div class="container mx-auto text-center text-white">
+            <p>&copy; 2025 Doctor Dashboard. All rights reserved.</p>
+        </div>
+    </footer>
+
+</body>
+
+</html>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment History</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"></script>
+</head>
+<style>
+    body {
+        background: linear-gradient(135deg,rgb(113, 201, 86),rgb(76, 205, 234));
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        padding: 20px;
+    }
+</style>
+<body class="bg-gray-100">
+    <div class="container mx-auto mt-10 p-6 bg-white rounded-lg shadow-lg">
+        <h1 class="text-3xl font-bold text-gray-800 text-center mb-6"><i class="fas fa-money-check-alt"></i> Payment History</h1>
+
+        <div class="overflow-x-auto">
+            <table class="table-auto w-full border-collapse border border-gray-300">
+                <thead>
+                    <tr class="bg-gray-200">
+                        <th class="border px-4 py-2">Order ID</th>
+                        <th class="border px-4 py-2">User</th>
+                        <th class="border px-4 py-2">Amount (₹)</th>
+                        <th class="border px-4 py-2">Status</th>
+                        <th class="border px-4 py-2">Paid On</th>
+                        <th class="border px-4 py-2">Delete</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for transaction in transactions %}
+                    <tr class="bg-white text-center">
+                        <td class="border px-4 py-2">{{ transaction.razorpay_order_id }}</td>
+                        <td class="border px-4 py-2">{{ transaction.user.email }}</td>
+                        <td class="border px-4 py-2 font-bold">₹{{ transaction.amount }}</td>
+                        <td class="border px-4 py-2">
+                            {% if transaction.status == "Paid" %}
+                                <span class="text-green-600 font-bold">{{ transaction.status }}</span>
+                            {% elif transaction.status == "Pending" %}
+                                <span class="text-yellow-600 font-bold">{{ transaction.status }}</span>
+                            {% else %}
+                                <span class="text-red-600 font-bold">{{ transaction.status }}</span>
+                            {% endif %}
+                        </td>
+                        <td class="border px-4 py-2">{{ transaction.created_at|date:"d M Y, H:i A" }}</td>
+                        <td class="border px-4 py-2">
+                            <form action="{% url 'deltrans' transaction.id %}" method="POST" onsubmit="return confirm('Are you sure you want to delete this transaction?');">
+                                {% csrf_token %}
+                                <button type="submit" class="px-3 py-1 bg-red-600 text-white font-bold rounded-lg hover:bg-red-700 transition">
+                                    <i class="fas fa-trash"></i> Delete
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="5" class="text-center p-4 text-gray-600">No transactions found</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="text-center mt-6">
+            <a href="/adminindex/" class="px-6 py-3 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 transition">
+                <i class="fas fa-arrow-left"></i> Back to Admin Panel
+            </a>
+        </div>
+    </div>
+</body>
+</html>
+    

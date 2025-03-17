@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Schedule Appointment</title>
+    <script src="https://cdn.tailwindcss.com"></script> <!-- Tailwind CSS CDN -->
+</head>
+
+<body class="bg-gray-100 font-sans antialiased">
+    <div class="max-w-3xl mx-auto bg-white shadow-lg rounded-lg p-8 mt-8">
+        <!-- Appointment Form Header -->
+        <h1 class="text-3xl font-semibold text-center text-gray-800 mb-8">Schedule Your Appointment</h1>
+
+        <!-- Flash message for success -->
+        {% if messages %}
+        <div class="bg-green-100 text-green-800 border-l-4 border-green-500 p-4 mb-4">
+            {% for message in messages %}
+            <p>{{ message }}</p>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <!-- Appointment Form -->
+        <form method="POST" onsubmit="return validateForm()">
+            {% csrf_token %}
+            <div class="mb-4">
+                <label for="patientname" class="block text-gray-700 font-medium">Patient Name</label>
+                <input type="text" id="patientname" name="patientname" class="mt-2 w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+            </div>
+
+            <div class="mb-4">
+                <label for="date" class="block text-gray-700 font-medium">Date</label>
+                <input type="date" id="date" name="date" class="mt-2 w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+            </div>
+
+            <div class="mb-4">
+                <label for="time" class="block text-gray-700 font-medium">Time</label>
+                <input type="time" id="time" name="time" class="mt-2 w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+            </div>
+
+            <div class="mb-4">
+                <label for="diseasedetails" class="block text-gray-700 font-medium">Disease Details</label>
+                <textarea id="diseasedetails" name="diseasedetails" rows="4" class="mt-2 w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required></textarea>
+            </div>
+
+            <div class="flex justify-center">
+                <button type="submit" class="px-8 py-2 bg-blue-500 text-white font-medium rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 transition">Schedule Appointment</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        // Ensure that the date is set to today's date or a future date
+        document.addEventListener("DOMContentLoaded", function () {
+            let today = new Date().toISOString().split("T")[0];
+            document.getElementById("date").setAttribute("min", today);
+        });
+
+        // Form validation function
+        function validateForm() {
+            let patientname = document.getElementById("patientname").value;
+            let time = document.getElementById("time").value;
+            let date = document.getElementById("date").value;
+            let diseasedetails = document.getElementById("diseasedetails").value;
+
+            // Validate Patient Name (can include special characters and spaces)
+            let namePattern = /^[A-Za-z\s]+$/; // only letters and spaces
+            if (!namePattern.test(patientname)) {
+                alert("Patient Name can only contain letters and spaces.");
+                return false;
+            }
+
+            // Validate Time (ensure it's between 9 AM and 5 PM)
+            let selectedTime = new Date("1970-01-01T" + time + "Z");
+            let startTime = new Date("1970-01-01T09:00:00Z");
+            let endTime = new Date("1970-01-01T17:00:00Z");
+
+            if (selectedTime < startTime || selectedTime > endTime) {
+                alert("Appointment time must be between 9:00 AM and 5:00 PM.");
+                return false;
+            }
+
+            // Validate Date (ensure the date is in the future)
+            let selectedDate = new Date(date);
+            let today = new Date();
+            if (selectedDate <= today) {
+                alert("Please select a future date for the appointment.");
+                return false;
+            }
+
+            // Validate Disease Details (required)
+            if (diseasedetails.trim() === "") {
+                alert("Please provide disease details.");
+                return false;
+            }
+
+            return true; // If all validations pass
+        }
+    </script>
+
+</body>
+
+</html>

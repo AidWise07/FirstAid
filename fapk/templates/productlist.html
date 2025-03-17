@@ -1,0 +1,65 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Search</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.0.3/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<style>
+    body {
+        background-image: url("{% static 'images/wp1.jpg' %}");
+        background-size: cover; /* Ensures the image covers the whole page */
+        background-position: center; /* Centers the image */
+        background-repeat: repeat; /* Prevents the image from repeating */
+        margin: 0;
+        height: 100vh; /* Makes sure the page takes the full height of the viewport */
+    }
+</style>
+<body class="bg-gray-100">
+
+    <!-- Search Form -->
+    <section class="container mx-auto p-6">
+        <div class="bg-white shadow-md rounded-lg p-8">
+            <h1 class="text-3xl font-semibold mb-6 text-center">Search for Products</h1>
+            <form method="POST" action="/productsearch/" class="space-y-4">
+                {% csrf_token %}
+                <div class="flex flex-col">
+                    <label for="productname" class="text-lg">Product Name</label>
+                    <input type="text" name="productname" id="productname" class="border border-gray-300 rounded-lg p-2 mt-2" placeholder="Enter productname" required>
+                </div>
+                <button type="submit" class="bg-blue-500 text-white rounded-lg py-2 px-4 mt-4 w-full hover:bg-blue-600">Search</button>
+                <!-- Back to home Button -->
+                <a href="/home/" class="block text-center mt-4">Back</a>
+            </form>
+        </div>
+    </section>
+
+    <!-- Product Cards -->
+    <div class="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 p-8">
+        {% for p in prod %}
+            <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                <img src="{{ p.image.url }}" alt="{{ p.productname }}" class="w-full h-48 object-cover">
+                <div class="p-4">
+                    <h2 class="text-xl font-semibold text-gray-800">{{ p.productname }}</h2>
+                    <p class="text-gray-600 mt-2">{{ p.category }}</p>
+                    <p class="text-gray-700 mt-4">{{ p.description|slice:":150" }}...</p>
+                    <div class="mt-4 flex justify-between items-center">
+                        <span class="text-lg font-semibold text-gray-800">${{ p.price }}</span>
+                        <span class="text-sm text-gray-600">Stock: {{ p.stock }}</span>
+                    </div>
+                    <div class="mt-4 flex justify-between">
+                        <!-- Form for adding product to cart -->
+                        <form action="{% url 'quantity_form' p.id %}" method="POST" class="flex items-center space-x-2">
+                            {% csrf_token %}
+                            <button type="submit" class="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 transition">Add to Cart</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+</body>
+</html>

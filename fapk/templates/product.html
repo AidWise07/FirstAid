@@ -1,0 +1,186 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Registration</title>
+    <style>
+        h1 {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #a8edea, #fed6e3);
+        }
+
+        .form {
+            max-width: 600px;
+            width: 100%;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0px 0px 0px 4px rgba(52, 52, 53, 0.185);
+            display: flex;
+            flex-direction: column;
+            border-radius: 10px;
+        }
+
+        .title {
+            font-family: Impact;
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color:rgb(88, 172, 237);
+        }
+
+        .label {
+            font-family: Arial;
+            color: rgb(0, 0, 0);
+            margin-bottom: 4px;
+        }
+
+        .input {
+            padding: 10px;
+            margin-bottom: 20px;
+            width: 90%;
+            font-size: 1rem;
+            color:rgb(74, 99, 104);
+            outline: none;
+            border: 1px solid transparent;
+            border-radius: 4px;
+            transition: all 0.2s ease-in-out;
+            font-family: Arial;
+        }
+
+        .input:focus {
+            background-color: #fff;
+            box-shadow: 0 0 0 2px #cbd5e0;
+        }
+
+        .input:valid {
+            border: 1px solid green;
+        }
+
+        .input:invalid {
+            border: 1px solid rgba(14, 14, 14, 0.2);
+        }
+
+        .submit {
+            background-color:rgb(26, 37, 44);
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            padding: 10px 20px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+        }
+    </style>
+</head>
+
+<body>
+    <img src="{% static 'images/img6.jpeg' %}">
+    <form class="form" action="" method="POST" enctype="multipart/form-data" onsubmit="return validateForm()">
+        <span class="title"> ADD PRODUCT </span>
+        {% csrf_token %}
+
+        <label class="label" for="productname">Product Name: </label>
+        <input class="input" type="text" id="productname" name="productname" required="" pattern="^[a-zA-Z0-9\s]+$" title="Product name must only contain letters, numbers, and spaces."><br><br>
+
+        <label class="label" for="manufacturer">Manufacturer: </label>
+        <input class="input" type="text" id="manufacturer" name="manufacturer" required=""><br><br>
+
+        <label class="label" for="category">Category: </label>
+        <input class="input" type="text" id="category" name="category" required="" list="medical-categories"><br><br>
+        <datalist id="medical-categories">
+            <option value="Medicine">
+            <option value="Surgical">
+            <option value="Healthcare">
+        </datalist>
+
+        <label class="label" for="description">Description: </label>
+        <input class="input" type="text" id="description" name="description" required=""><br><br>
+
+        <label class="label" for="price">Price: </label>
+        <input class="input" type="number" id="price" name="price" step="0.01" required="" min="0" title="Price should be a positive number"><br><br>
+
+        <label class="label" for="stock">Stock: </label>
+        <input class="input" type="number" id="stock" name="stock" required="" min="1" title="Stock should be a positive number"><br><br>
+
+        <label class="label" for="image">Image: </label>
+        <input class="input" type="file" id="image" name="image" accept="image/*" required=""><br><br>
+
+        <label class="label" for="sellername">Seller Name: </label>
+        <input class="input" type="text" id="sellername" name="sellername" required=""><br><br>
+
+        <label class="label" for="sellercontact">Seller Contact: </label>
+        <input class="input" type="tel" id="sellercontact" name="sellercontact" required="" pattern="^\d{10}$" title="Seller contact number must be 10 digits"><br><br>
+
+        <label class="label" for="sellermail">Seller Email: </label>
+        <input class="input" type="email" id="sellermail" name="sellermail" required=""><br><br>
+
+        <input class="submit" type="submit" id="btn" name="submit" value="Submit">
+    </form>
+
+    <script>
+        // Validate form fields before submission
+        function validateForm() {
+            var productname = document.getElementById("productname").value;
+            var category = document.getElementById("category").value;
+            var price = document.getElementById("price").value;
+            var stock = document.getElementById("stock").value;
+            var sellercontact = document.getElementById("sellercontact").value;
+            var sellermail = document.getElementById("sellermail").value;
+
+            // Ensure product name is valid
+            if (!productname || !/^[a-zA-Z0-9\s]+$/.test(productname)) {
+                alert("Product name must only contain letters, numbers, and spaces.");
+                return false;
+            }
+
+            // Ensure category is a valid medical field category
+            var validCategories = ["Medicine", "Surgical", "Healthcare"];
+            if (!validCategories.includes(category)) {
+                alert("Please select a valid category from the medical field.");
+                return false;
+            }
+
+            // Ensure price is a positive number
+            if (price <= 0) {
+                alert("Price should be a positive number.");
+                return false;
+            }
+
+            // Ensure stock is a positive integer
+            if (stock <= 0) {
+                alert("Stock should be a positive number.");
+                return false;
+            }
+
+            // Ensure seller contact number is 10 digits
+            if (!/^\d{10}$/.test(sellercontact)) {
+                alert("Seller contact number must be 10 digits.");
+                return false;
+            }
+
+            // Ensure email is in a valid format
+            var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailPattern.test(sellermail)) {
+                alert("Please enter a valid email address.");
+                return false;
+            }
+
+            return true; // If all validations pass
+        }
+    </script>
+</body>
+
+</html>

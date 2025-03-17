@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <script src="https://cdn.tailwindcss.com"></script>  <!-- Tailwind CSS CDN -->
+</head>
+<style>
+    body {
+        background: linear-gradient(135deg, #a8edea, #fed6e3);
+    }
+</style>
+<body class="bg-gray-100 font-sans antialiased">
+    <div class="max-w-4xl mx-auto p-8 bg-white rounded-lg shadow-md mt-10">
+       <!---<div class="flex justify-center">
+            <img class="w-32 h-32 rounded-full border-4 border-gray-300" 
+                src="{% if user.image %}{{ user.image.url }}{% else %}https://via.placeholder.com/150{% endif %}" alt="Profile Image">
+        </div>-->
+        <div class="mt-6 text-center">
+            <h1 class="text-3xl font-semibold text-gray-800">{{ user.pharmacyname }}'s Profile</h1>
+            <p class="mt-2 text-gray-600">Welcome to your profile page</p>
+        </div>
+
+        <div class="mt-6 space-y-4">
+            <!-- <div class="user-details">
+                {% if user.image %}
+                    <img src="{{ user.image.url }}" alt="">
+                {% endif %}
+            </div> -->
+            <div class="flex justify-between">
+                <span class="font-medium text-gray-700">Pharmacy Name:</span>
+                <span class="text-gray-600">{{ user.pharmacyname }}</span>
+            </div>
+            <div class="flex justify-between">
+                <span class="font-medium text-gray-700">Owner Name:</span>
+                <span class="text-gray-600">{{ user.ownername }}</span>
+            </div>
+            <div class="flex justify-between">
+                <span class="font-medium text-gray-700">Location:</span>
+                <span class="text-gray-600">{{ user.location }}</span>
+            </div>
+            <div class="flex justify-between">
+                <span class="font-medium text-gray-700">Contact:</span>
+                <span class="text-gray-600">{{ user.contact }}</span>
+            </div>
+            <div class="flex justify-between">
+                <span class="font-medium text-gray-700">E-Mail:</span>
+                <span class="text-gray-600">{{ user.email }}</span>
+            </div>
+            <div class="flex justify-between">
+                <span class="font-medium text-gray-700">Status:</span>
+                <span class="text-gray-600">{{ user.status }}</span>
+            </div>
+        </div>
+
+        <div class="mt-6 flex justify-center space-x-4">
+            <a href="/edit_pharmacyprofile/" class="px-6 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition">Edit Profile</a>
+            <a href="{% url 'logout' %}" class="px-6 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 transition">Logout</a>
+        </div>
+    </div>
+
+</body>
+</html>

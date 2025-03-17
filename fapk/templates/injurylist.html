@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Injury Details</title>
+    <!-- Bootstrap CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<style>
+    body{
+        background: linear-gradient(135deg,rgb(113, 201, 86),rgb(76, 205, 234));
+    }
+    h1 {
+        color: white;
+    }
+</style>
+<body class="bg-gray-50">
+    <div class="container mt-5">
+        <h1 class="text-center mb-4 text-4xl font-bold">Injury List</h1>
+
+        <!-- Table to display injury records -->
+        <div class="card p-4 shadow-lg">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">Injury Name</th>
+                        <th scope="col">Image</th>
+                        <th scope="col">Procedure</th>
+                        <th scope="col">Video</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for injury in user %}
+                    <tr>
+                        <td>{{ injury.injuryname }}</td>
+                        <td>
+                            {% if injury.injuryimg %}
+                            <img src="{{ injury.injuryimg.url }}" alt="Injury Image" class="img-fluid" style="width: 100px; height: auto;">
+                            {% else %}
+                            No Image Available
+                            {% endif %}
+                        </td>
+                        <td>{{ injury.procedure }}</td>
+                        <td>
+                            {% if injury.procedurevideo %}
+                            <video width="100" controls>
+                                <source src="{{ injury.procedurevideo.url }}" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+                            {% else %}
+                            No Video Available
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="4" class="text-center">No injuries recorded.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Link to go back or add new injury -->
+        <div class="text-center mt-4">
+            <a href="{% url 'injury' %}" class="btn btn-primary">Add New Injury</a>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and Popper.js (Optional) -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+</body>
+
+</html>

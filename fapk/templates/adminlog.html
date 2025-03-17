@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Custom CSS -->
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+        }
+    </style>
+</head>
+
+<body class="bg-gradient-to-r from-blue-500 via-teal-500 to-green-500 h-screen flex items-center justify-center">
+
+    <div class="bg-white p-8 rounded-lg shadow-lg w-full sm:w-96">
+        <h2 class="text-3xl font-bold text-center text-gray-800 mb-6">Admin Login</h2>
+
+        <form method="POST">
+            {% csrf_token %}
+            <div class="mb-4">
+                <label for="email" class="block text-gray-700 text-sm font-semibold">Email Address</label>
+                <input type="email" name="email" id="email" placeholder="admin@gmail.com"
+                    class="w-full p-3 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500" required>
+            </div>
+
+            <div class="mb-6">
+                <label for="password" class="block text-gray-700 text-sm font-semibold">Password</label>
+                <input type="password" name="password" id="password" placeholder="Enter your password"
+                    class="w-full p-3 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500" required>
+            </div>
+
+            <button type="submit"
+                class="w-full py-3 bg-teal-600 text-white font-semibold text-lg rounded-md hover:bg-teal-700 transition duration-300">Login</button>
+
+            <!--<div class="mt-4 text-center">
+                <p class="text-sm text-gray-600">Forgot your password? <a href="#" class="text-teal-600 hover:underline">Click here</a></p>
+            </div>-->
+        </form>
+
+        <!-- Back to Index Button (without styling) -->
+        <div class="mt-4 text-center">
+            <a href="/" class="text-sm text-gray-600">Back </a>
+        </div>
+    </div>
+
+</body>
+
+</html>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verify OTP</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<style>
+    body {
+        background: linear-gradient(135deg,rgba(68, 195, 220, 0.69),rgba(223, 208, 69, 0.66));
+    }
+</style>
+<body class="flex items-center justify-center h-screen bg-gray-100">
+    <div class="w-full max-w-sm p-6 bg-white rounded-lg shadow-md">
+        <h2 class="mb-4 text-xl font-bold text-center text-gray-700">Verify OTP</h2>
+        <form method="post" class="space-y-4">
+            {% csrf_token %}
+            <div>
+                <label class="block text-sm font-medium text-gray-700">E-Mail</label>
+                <input type="email" name="email" class="w-full px-4 py-2 mt-1 border rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none" placeholder="Enter your email" required>
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700">OTP</label>
+                <input type="text" name="otp" class="w-full px-4 py-2 mt-1 border rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none" placeholder="Enter OTP" required>
+            </div>
+            <button type="submit" class="w-full px-4 py-2 font-bold text-white bg-green-500 rounded-md hover:bg-green-600">Verify OTP</button>
+        </form>
+    </div>
+</body>
+</html>

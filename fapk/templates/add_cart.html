@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add to Cart</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 flex items-center justify-center h-screen">
+
+    <div class="bg-white p-6 rounded-lg shadow-lg w-96">
+        <h1>TEST: This is Add to Cart Page</h1>
+        <h2 class="text-xl font-bold text-gray-700 text-center">Add to Cart</h2>
+
+        <div class="mt-4">
+            <img src="{{ product.image.url }}" alt="{{ product.productname }}" class="w-full h-48 object-cover rounded-lg">
+        </div>
+
+        <p class="mt-2 text-gray-600"><strong>Product:</strong> {{ product.productname }}</p>
+        <p class="text-gray-600"><strong>Manufacturer:</strong> {{ product.manufacturer }}</p>
+        <p class="text-gray-600"><strong>Category:</strong> {{ product.category }}</p>
+        <p class="text-gray-800 font-semibold"><strong>Price:</strong> ₹{{ product.price }}</p>
+        <p class="text-gray-800 font-semibold"><strong>Stock Available:</strong> {{ product.stock }}</p>
+
+        <form method="POST" class="mt-4">
+            {% csrf_token %}
+            <label for="quantity" class="block text-gray-700">Enter Quantity:</label>
+            <input type="number" name="quantity" id="quantity" min="1" max="{{ product.stock }}" required 
+                   class="w-full p-2 border border-gray-300 rounded-lg mt-2">
+
+            <button type="submit" class="mt-4 w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition">
+                Add to Cart
+            </button>
+        </form>
+    </div>
+
+</body>
+</html>

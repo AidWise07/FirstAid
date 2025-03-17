@@ -1,0 +1,111 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Injury Search</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.0.3/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<style>
+    body {
+        background-image: url("{% static 'images/wp1.jpg' %}");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        margin: 0;
+        height: 100vh;
+    }
+</style>
+<body class="bg-gray-100 d-flex flex-column align-items-center">
+
+    <!-- Search Form -->
+    <section class="container mt-5 p-4">
+        <div class="bg-white shadow-lg rounded-lg p-5 text-center w-50 mx-auto">
+            <h1 class="text-3xl font-semibold mb-4"><i class="fas fa-search"></i> Search for Injuries</h1>
+            <form method="POST" class="space-y-3">
+                {% csrf_token %}
+                <div class="form-group">
+                    
+                    <input type="text" name="injury" id="injury" class="form-control" placeholder="Enter injury" required>
+                </div>
+                <button type="submit" class="btn btn-primary w-100"><i class="fas fa-search"></i> Search</button>
+            </form>
+            <!-- Back to Home Button -->
+            <a href="/home/" class="d-block text-center mt-4">Back to Home</a>
+        </div>
+    </section>
+
+    <!-- Injury List -->
+    <section class="container mt-4 p-4">
+        <div class="row">
+            {% for injury in inj %}
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="card shadow-lg">
+                    <img src="{{ injury.injuryimg.url }}" alt="Injury Image" class="card-img-top img-fluid" style="height: 200px; object-fit: cover;">
+                    <div class="card-body">
+                        <h2 class="card-title text-primary injury-name" data-toggle="modal" data-target="#injuryModal" 
+                            data-injuryname="{{ injury.injuryname }}" 
+                            data-procedure="{{ injury.procedure }}" 
+                            data-video="{{ injury.procedurevideo.url }}">
+                            <i class="fas fa-notes-medical"></i> {{ injury.injuryname }}
+                        </h2>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <p class="col-12 text-center text-lg text-muted">No injuries found matching the search criteria.</p>
+            {% endfor %}
+        </div>
+    </section>
+
+    <!-- Modal -->
+    <div class="modal fade" id="injuryModal" tabindex="-1" role="dialog" aria-labelledby="injuryModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="injuryModalLabel"></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p class="injury-procedure"></p>
+                    <video class="w-100 injury-video" controls>
+                        <source type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript to handle modal population -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.10.2/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+    <script>
+        // JavaScript for handling modal content population
+        $('#injuryModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget); // Button that triggered the modal
+            var injuryName = button.data('injuryname'); // Extract info from data-* attributes
+            var procedure = button.data('procedure');
+            var video = button.data('video');
+    
+            var modal = $(this);
+            modal.find('.modal-title').text(injuryName); // Set the injury name in the modal header
+            modal.find('.injury-procedure').text(procedure); // Set the procedure text in the modal body
+    
+            var videoElement = modal.find('.injury-video');
+            videoElement.attr('src', video); // Set the video source in the modal
+    
+            // Reset the video to reload it when the modal is reopened
+            videoElement[0].load();
+        });
+    </script>
+
+</body>
+</html>

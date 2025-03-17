@@ -1,0 +1,61 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctor's Appointments</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.0.3/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<style>
+    body {
+        background: linear-gradient(135deg, #a8edea, #fed6e3);
+    }
+</style>
+<body class="bg-gray-100 p-6">
+
+    <div class="container mx-auto">
+        <h1 class="text-3xl font-semibold text-center mb-6">Your Appointments</h1>
+
+        {% if appointments %}
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <table class="w-full border-collapse border border-gray-300">
+                    <thead>
+                        <tr class="bg-gray-200">
+                            <th class="border p-2">Patient</th>
+                            <th class="border p-2">Date</th>
+                            <th class="border p-2">Time</th>
+                            <th class="border p-2">Status</th>
+                            <th class="border p-2">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for appointment in appointments %}
+                        <tr class="text-center">
+                            <td class="border p-2">{{ appointment.user.firstName }}</td>
+                            <td class="border p-2">{{ appointment.date }}</td>
+                            <td class="border p-2">{{ appointment.time }}</td>
+                            <td class="border p-2">{{ appointment.status }}</td>
+                            <td class="border p-2">
+                                <form method="POST" action="{% url 'update_appointment_status' appointment.id %}">
+                                    {% csrf_token %}
+                                    <select name="status" class="border p-1 rounded">
+                                        <option value="Pending" {% if appointment.status == "Pending" %}selected{% endif %}>Pending</option>
+                                        <option value="Confirmed" {% if appointment.status == "Confirmed" %}selected{% endif %}>Confirmed</option>
+                                        <option value="Cancelled" {% if appointment.status == "Cancelled" %}selected{% endif %}>Cancelled</option>
+                                    </select>
+                                    <button type="submit" class="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600">Update</button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <p class="text-center text-lg text-gray-600">No appointments yet.</p>
+        {% endif %}
+    </div>
+
+</body>
+</html>

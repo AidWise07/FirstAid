@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ambulance Driver Dashboard</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js"></script>
+
+    <style>
+        body {
+            background: linear-gradient(135deg,rgb(221, 241, 255),rgb(106, 210, 255));
+            animation: fadeIn 1s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .card {
+            transition: transform 0.3s;
+        }
+        .card:hover {
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body class="bg-gray-100 items-center justify-center min-h-screen">
+    <div class="container mx-auto mt-10 p-6 bg-white rounded-lg shadow-lg w-3/4">
+        <h1 class="text-3xl font-bold text-gray-800 text-center mb-6">
+            <i class="fas fa-ambulance text-red-600 animate-pulse"></i> Ambulance Driver Dashboard
+        </h1>
+        <!-- <div class="bg-white p-6 rounded-lg shadow-md mb-6 card text-center">
+            <h2 class="text-2xl font-semibold text-green-600 mb-4">
+                <i class="fas fa-toggle-on"></i> Availability Status
+            </h2>
+            <button id="toggle-status" class="bg-red-500 text-white px-4 py-2 rounded-lg">
+                <i class="fas fa-times-circle"></i> Not Available
+            </button>
+        </div> -->
+        <button id="toggle-status" class="px-4 py-2 rounded-lg text-white 
+    {% if driver.availability_status %} bg-green-500 {% else %} bg-red-500 {% endif %}"
+    onclick="toggleAvailability({{ driver.id }})"> 
+    <p>Driver ID: {{ driver.id }}</p> <!-- Ensure driver.id is passed -->
+    {% if driver.availability_status %}
+        <i class="fas fa-check-circle"></i> Available
+    {% else %}
+        <i class="fas fa-times-circle"></i> Not Available
+    {% endif %}
+</button>
+    
+
+        <!-- Emergency Requests Section -->
+        <div class="bg-white p-6 rounded-lg shadow-md mb-6 card">
+            <h2 class="text-2xl font-semibold text-red-600 mb-4"><i class="fas fa-exclamation-triangle"></i> Emergency Ride Requests</h2>
+            <ul id="ride-requests" class="list-group">
+                <!-- Ride requests will be dynamically added here -->
+            </ul>
+        </div>
+
+        <!-- User Needs Section -->
+        <div class="bg-white p-6 rounded-lg shadow-md card">
+            <h2 class="text-2xl font-semibold text-blue-600 mb-4"><i class="fas fa-user-md"></i> User Needs</h2>
+            <ul id="user-needs" class="list-group">
+                <!-- User needs will be dynamically added here -->
+            </ul>
+        </div>
+    </div>
+
+    
+    <script>
+        function toggleAvailability(driverId) {
+            if (!driverId) {  // Ensure driverId is valid
+                console.error("Error: Driver ID is undefined!");
+                return;
+            }
+    
+            fetch(`/toggle_availability/${driverId}/`, {  // Ensure correct URL
+                method: "GET",  // Using GET request
+                headers: {
+                    "X-CSRFToken": "{{ csrf_token }}",
+                    "Content-Type": "application/json"
+                }
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("Network response was not ok");  // Handle 404 errors
+                }
+                return response.json();
+            })
+            .then(data => {
+                let toggleButton = document.getElementById("toggle-status");
+                if (data.status !== undefined) {
+                    if (data.status) {
+                        toggleButton.classList.remove("bg-red-500");
+                        toggleButton.classList.add("bg-green-500");
+                        toggleButton.innerHTML = '<i class="fas fa-check-circle"></i> Available';
+                    } else {
+                        toggleButton.classList.remove("bg-green-500");
+                        toggleButton.classList.add("bg-red-500");
+                        toggleButton.innerHTML = '<i class="fas fa-times-circle"></i> Not Available';
+                    }
+                }
+            })
+            .catch(error => console.error("Error:", error));
+        }
+    </script>
+    
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Sample data (Replace with actual data from API or backend)
+            let rideRequests = [
+                { name: "John Doe", location: "Downtown", contact: "9876543210" },
+                { name: "Jane Smith", location: "Main Street", contact: "8765432109" }
+            ];
+
+            let userNeeds = [
+                { user: "Mike Johnson", need: "First aid for burns" },
+                { user: "Sarah Lee", need: "Assistance with fracture" }
+            ];
+
+            let rideList = document.getElementById("ride-requests");
+            let needsList = document.getElementById("user-needs");
+
+            rideRequests.forEach(req => {
+                let li = document.createElement("li");
+                li.className = "list-group-item flex justify-between items-center hover:bg-red-100 transition duration-300 p-2 rounded-lg";
+                li.innerHTML = `<strong>${req.name}</strong> - ${req.location} <span class='text-sm text-gray-600'><i class='fas fa-phone-alt'></i> ${req.contact}</span>`;
+                rideList.appendChild(li);
+            });
+
+            userNeeds.forEach(need => {
+                let li = document.createElement("li");
+                li.className = "list-group-item flex justify-between items-center hover:bg-blue-100 transition duration-300 p-2 rounded-lg";
+                li.innerHTML = `<strong>${need.user}</strong> - ${need.need}`;
+                needsList.appendChild(li);
+            });
+        });
+    </script>
+    
+</body>
+</html>

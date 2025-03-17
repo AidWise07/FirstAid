@@ -1,0 +1,89 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Ambulance Drivers</title>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<style>
+    body {
+        background-image: url("{% static 'images/wp1.jpg' %}");
+        background-size: cover;
+        background-position: center;
+        background-repeat: repeat;
+        margin: 0;
+        height: 100vh;
+    }
+
+    .search_section {
+        order: -1;
+        padding-top: 1rem; /* Reduced padding */
+    }
+
+    .driver_list_section {
+        flex-grow: 1;
+        overflow-y: auto;
+        order: -1;
+        padding-top: 2rem; /* Reduced padding */
+    }
+
+    h1{
+        font-family: "Arial", sans-serif;
+    }
+</style>
+<body>
+    <div class="search_section layout_padding">
+        <div class="container mx-auto p-6">
+            <div class="bg-white rounded-lg p-8 shadow-md">
+                <h1 class="text-3xl font-semibold mb-6 text-center">Search for Ambulance Drivers</h1>
+                <form method="POST" action="{% url 'driversearch' %}" class="grid grid-cols-1 gap-6">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="location" class="text-lg text-black">Location</label>
+                        <input type="text" class="form-control border rounded-lg p-2" id="location" name="location" placeholder="Enter location" required>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary px-6 py-2 rounded-lg bg-blue-500 text-white hover:bg-blue-600 w-full">
+                            Search
+                        </button>
+                    </div>
+                </form>
+                <!-- Back to Home Button -->
+                <a href="/home/" class="block text-center mt-4">Back to Home</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="driver_list_section layout_padding">
+        <div class="container mx-auto p-6">
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                {% for driver in driv %}
+                    <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                        <img src="{{ driver.image.url }}" alt="Driver Image" class="w-full h-48 object-cover">
+                        <div class="p-4">
+                            <h3 class="text-xl font-semibold text-gray-800">{{ driver.drivername }}</h3>
+                            <p class="text-gray-600"><strong>Vehicle:</strong> {{ driver.vehicle }}</p>
+                            <p class="text-gray-600"><strong>Contact:</strong> {{ driver.contact }}</p>
+                            <p class="text-gray-600"><strong>License:</strong> {{ driver.licenseNumber }}</p>
+                            <p class="text-gray-600"><strong>Location:</strong> {{ driver.location }}</p>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            {% if not driv %}
+                <p class="text-center text-lg text-gray-600">No drivers found for the selected location.</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <script src="{% static 'js/popper.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+</body>
+</html>

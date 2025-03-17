@@ -1,0 +1,67 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctor Search</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.0.3/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<style>
+    body {
+        background-image: url("{% static 'images/wp1.jpg' %}");
+        background-size: cover; /* Ensures the image covers the whole page */
+        background-position: center; /* Centers the image */
+        background-repeat: repeat; /* Prevents the image from repeating */
+        margin: 0;
+        height: 100vh; /* Makes sure the page takes the full height of the viewport */
+    }
+</style>
+<body class="bg-gray-100">
+
+    <!-- Search Form -->
+    <section class="container mx-auto p-6">
+        <div class="bg-white shadow-md rounded-lg p-8">
+            <h1 class="text-3xl font-semibold mb-6 text-center">Search for Doctors</h1>
+            <form method="POST" class="space-y-4">
+                {% csrf_token %}
+                <div class="flex flex-col">
+                    <label for="specialization" class="text-lg">Specialization</label>
+                    <input type="text" name="specialization" id="specialization" class="border border-gray-300 rounded-lg p-2 mt-2" placeholder="Enter specialization" required>
+                </div>
+                <button type="submit" class="bg-blue-500 text-white rounded-lg py-2 px-4 mt-4 w-full hover:bg-blue-600">Search</button>
+            </form>
+            <!-- Back to Home Button -->
+            <a href="/home/" class="block text-center mt-4">Back to Home</a>
+        </div>
+    </section>
+
+    <!-- Doctors List -->
+    <section class="container mx-auto p-6 mt-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {% for doctor in doc %}
+            <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+                {% if doctor.image %}
+                <img src="{{ doctor.image.url }}" alt="Doctor Image" class="w-full h-56 object-cover">
+                {% else %}
+                <p>Doctor Image</p>
+                {% endif %}
+                <div class="p-6">
+                    <h2 class="text-xl font-semibold text-gray-800">{{ doctor.doctorname }}</h2>
+                    <p class="text-gray-600">{{ doctor.specialization }}</p>
+                    <p class="text-gray-600">Hospital: {{ doctor.hospital }}</p>
+                    <p class="text-gray-600">Contact: {{ doctor.contact }}</p>
+                    <a href="mailto:{{ doctor.email }}" class="text-blue-500 hover:underline mt-4 block">Email: {{ doctor.email }}</a>
+                    <a href="{% url 'appointment' doctor.id %}" class="bg-blue-500 text-white rounded-lg py-2 px-4 mt-4 inline-block hover:bg-blue-600">
+                        Appointment
+                    </a>
+                </div>
+            </div>
+            {% empty %}
+            <p class="col-span-full text-center text-lg text-gray-600">No doctors found matching the specialization.</p>
+            {% endfor %}
+        </div>
+    </section>
+
+</body>
+</html>

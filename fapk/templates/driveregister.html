@@ -1,0 +1,194 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Driver Registration</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .form {
+            max-width: 600px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            padding: 20px;
+            box-shadow: 0px 0px 0px 4px rgba(52, 52, 53, 0.185);
+            display: flex;
+            flex-direction: column;
+            border-radius: 10px;
+        }
+
+        .title {
+            font-family: Impact;
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: rgb(88, 143, 237);
+        }
+
+        .label {
+            font-family: Arial;
+            color: rgb(0, 0, 0);
+            margin-bottom: 4px;
+        }
+
+        .input {
+            padding: 10px;
+            margin-bottom: 20px;
+            width: 90%;
+            font-size: 1rem;
+            color: rgb(74, 93, 104);
+            outline: none;
+            border: 1px solid transparent;
+            border-radius: 4px;
+            transition: all 0.2s ease-in-out;
+            font-family: Arial;
+        }
+
+        .input:focus {
+            background-color: #fff;
+            box-shadow: 0 0 0 2px #cbd5e0;
+        }
+
+        .input:valid {
+            border: 1px solid green;
+        }
+
+        .input:invalid {
+            border: 1px solid rgba(14, 14, 14, 0.205);
+        }
+
+        .submit {
+            background-color: rgb(26, 36, 44);
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            padding: 10px 20px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-r from-blue-500 via-teal-500 to-green-500 justify-center">
+    <img src="{% static 'images/driver1.jpg' %}" alt="Driver Registration Image">
+    <form class="form" method="POST" enctype="multipart/form-data" onsubmit="return validateForm()">
+        {% csrf_token %}
+        <span class="title">DRIVER REGISTRATION</span>
+        
+        <!-- Existing fields -->
+        <label for="drivername" class="label">Driver Name</label>
+        <input type="text" id="drivername" name="drivername" required class="input">
+        
+        <label for="vehicle" class="label">Vehicle</label>
+        <input type="text" id="vehicle" name="vehicle" required class="input">
+        
+        <label for="contact" class="label">Contact</label>
+        <input type="text" id="contact" name="contact" required class="input">
+        
+        <label for="licenseNumber" class="label">License Number</label>
+        <input type="text" id="licenseNumber" name="licenseNumber" required class="input">
+        
+        <label for="image" class="label">Image</label>
+        <input type="file" id="image" name="image" accept="image/*" required><br><br>
+
+        <!-- New fields added -->
+        <label for="username" class="label">Username</label>
+        <input type="text" id="username" name="username" required class="input">
+        
+        <label for="email" class="label">Email</label>
+        <input type="email" id="email" name="email" required class="input">
+        
+        <label for="password" class="label">Password</label>
+        <input type="password" id="password" name="password" required class="input">
+        
+        <label for="confirmPassword" class="label">Confirm Password</label>
+        <input type="password" id="confirmPassword" name="confirmPassword" required class="input">
+        
+        <label for="location" class="label">Location</label>
+        <input type="text" id="location" name="location" required class="input">
+
+        <button type="submit" class="submit">Submit</button>
+        <div class="form-section">
+            <p>Have an account? <a href="/driverlogin/" class="text-blue-600 font-bold">Log in</a> </p>
+        </div>
+        <div class="form-section">
+            <p> Back to <a href="/index/" class="text-blue-900 font-bold">Home</a> </p>
+        </div>
+    </form>
+
+    <script>
+        function validateForm() {
+            let drivername = document.getElementById("drivername").value;
+            let contact = document.getElementById("contact").value;
+            let licenseNumber = document.getElementById("licenseNumber").value;
+            let email = document.getElementById("email").value;
+            let password = document.getElementById("password").value;
+            let confirmPassword = document.getElementById("confirmPassword").value;
+            let location = document.getElementById("location").value;
+
+            // Validate Driver Name (allowing spaces and special characters)
+            let namePattern = /^[A-Za-z\s]+$/;
+            if (!namePattern.test(drivername)) {
+                alert("Driver Name can only contain letters and spaces.");
+                return false;
+            }
+
+            // Validate Contact Number (must be exactly 10 digits)
+            let contactPattern = /^[0-9]{10}$/;
+            if (!contactPattern.test(contact)) {
+                alert("Contact number must be exactly 10 digits.");
+                return false;
+            }
+
+            // Validate License Number (at least 10 characters)
+            if (licenseNumber.length < 10) {
+                alert("License Number must be at least 10 characters.");
+                return false;
+            }
+
+            // Validate Email (proper email format)
+            let emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailPattern.test(email)) {
+                alert("Please enter a valid email address.");
+                return false;
+            }
+
+            // Validate Password (at least 8 characters)
+            if (password.length < 8) {
+                alert("Password must be at least 8 characters long.");
+                return false;
+            }
+
+            // Validate Confirm Password (must match password)
+            if (password !== confirmPassword) {
+                alert("Passwords do not match.");
+                return false;
+            }
+
+            // Validate Location (required)
+            if (location === "") {
+                alert("Location is required.");
+                return false;
+            }
+
+            return true;
+        }
+    </script>
+</body>
+</html>

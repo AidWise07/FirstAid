@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Injury Submission</title>
+    <!-- Bootstrap CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<style>
+    body {
+        background: linear-gradient(135deg, #a8edea, #fed6e3);
+    }
+</style>
+<body class="bg-gray-50">
+    <div class="container mt-5">
+        <div class="card p-4 shadow-lg">
+            <h2 class="text-center mb-4 text-2xl font-bold">Submit Injury Information</h2>
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                
+                <div class="mb-4">
+                    <label for="injuryname" class="form-label">Injury Name</label>
+                    <input type="text" name="injuryname" class="form-control" id="injuryname" required>
+                </div>
+
+                <div class="mb-4">
+                    <label for="injuryimg" class="form-label">Injury Image</label>
+                    <input type="file" name="injuryimg" class="form-control" id="injuryimg" accept="image/*" required>
+                </div>
+
+                <div class="mb-4">
+                    <label for="procedure" class="form-label">Procedure</label>
+                    <textarea name="procedure" class="form-control" id="procedure" rows="5" required></textarea>
+                </div>
+
+                <div class="mb-4">
+                    <label for="procedurevideo" class="form-label">Procedure Video</label>
+                    <input type="file" name="procedurevideo" class="form-control" id="procedurevideo" accept="video/*">
+                </div>
+
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary w-full">Submit Injury</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and Popper.js (Optional) -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+</body>
+
+</html>
+
+

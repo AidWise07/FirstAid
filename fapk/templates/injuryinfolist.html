@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Injury List</title>
+    <!-- Include Bootstrap CSS for styling -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Injury List</h2>
+    <div class="row">
+        {% for injury in user %}
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <img src="{{ injury.injuryimg.url }}" class="card-img-top" alt="{{ injury.injuryname }}" style="height: 200px; object-fit: cover;">
+                <div class="card-body">
+                    <h5 class="card-title">{{ injury.injuryname }}</h5>
+                    <p class="card-text">Procedure: {{ injury.procedure }}</p>
+                    {% if injury.procedurevideo %}
+                        <a href="{{ injury.procedurevideo.url }}" class="btn btn-primary" target="_blank">Watch Procedure Video</a>
+                    {% else %}
+                        <p>No video available</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% empty %}
+            <p>No injuries found.</p>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- Include Bootstrap JS (optional, for interactivity) -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>

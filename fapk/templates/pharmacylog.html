@@ -1,0 +1,74 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pharmacy Login</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Custom CSS -->
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            align-items: center;
+            animation: fadeIn 1s ease-in-out;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .form-container {
+            width: 500px;
+            height: 550px;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+            border-radius: 10px;
+            box-sizing: border-box;
+            padding: 20px 30px;
+            animation: fadeIn 1s ease-in-out;
+        }
+    </style>
+</head>
+
+<body class="bg-gradient-to-r from-blue-500 via-teal-500 to-green-500 justify-center">
+    <div class="bg-white p-8 rounded-lg shadow-lg ">
+        <img width="500px" height="300px" src="{% static 'images2/medicines.jpg' %}"></div>
+    <div class="form-container">
+        <h2 class="text-3xl font-bold text-center text-gray-800 mb-6">AidWise-Pharmacy Login</h2>
+
+        <form method="POST" action="{% url 'pharmacylog' %}">
+            {% csrf_token %}
+            <div class="mb-4">
+                <label for="ownername" class="block text-gray-700 text-sm font-semibold">Ownername</label>
+                <input type="text" name="ownername" id="ownername" placeholder="Ownername"
+                    class="w-full p-3 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500" required>
+            </div>
+            <div class="mb-4">
+                <label for="email" class="block text-gray-700 text-sm font-semibold">Email Address</label>
+                <input type="email" name="email" id="email" placeholder="admin@gmail.com"
+                    class="w-full p-3 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500" required>
+            </div>
+
+            <div class="mb-6">
+                <label for="password" class="block text-gray-700 text-sm font-semibold">Password</label>
+                <input type="password" name="password" id="password" placeholder="Enter your password"
+                    class="w-full p-3 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500" required>
+            </div>
+
+            <button type="submit"
+                class="w-full py-3 bg-teal-600 text-white font-semibold text-lg rounded-md hover:bg-teal-700 transition duration-300">Login</button>
+                <div class="form-section">
+                    <p> Back to <a href="/index/" class="text-blue-900 font-bold">Home</a> </p>
+                </div>
+        </form>
+    </div>
+</body>
+
+</html>

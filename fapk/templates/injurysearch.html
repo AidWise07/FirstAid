@@ -1,0 +1,83 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Injury Search</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9; /* Light background for better contrast */
+            background-image: url("{% static 'images/wp5.jfif' %}");
+        }
+        h1 {
+            text-align: center;
+            color: white;
+        }
+        .search-form {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .product-container {
+            display: flex;
+            flex-wrap: wrap; /* Allows wrapping to the next line */
+            justify-content: center; /* Centers cards */
+            gap: 20px; /* Space between cards */
+            padding: 20px;
+        }
+        .product {
+            background-color: white; /* White background for cards */
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+            padding: 15px;
+            width: 250px; /* Fixed width for cards */
+            text-align: center; /* Centers text */
+        }
+        .product img {
+            max-width: 100%;
+            max-height: 150px; /* Height adjustment for better visuals */
+            border-radius: 5px; /* Rounds corners of images */
+            margin-bottom: 10px; /* Space between image and text */
+        }
+        .delete-button {
+            background-color: #ff4d4d; /* Red background */
+            color: white; /* White text */
+            border: none; /* Removes default border */
+            padding: 5px 10px; /* Adds padding */
+            border-radius: 5px; /* Rounds corners */
+            cursor: pointer; /* Changes cursor on hover */
+            margin-top: 10px; /* Space above button */
+        }
+        .delete-button:hover {
+            background-color: #ff1a1a; /* Darker red on hover */
+        }
+    </style>
+</head>
+<body>
+    <h1>Product List</h1>
+    
+
+    {% if prod %}
+    <div class="product-container">
+        {% for product in prod %}
+            <div class="product">
+                {% if product.image %}
+                    <img src="{{ product.image.url }}" alt="{{ product.productname }}">
+                {% endif %}
+                <h2>{{ product.productname }}</h2>
+                <p>{{ product.productuse }}</p>
+                <p>Price: ${{ product.price }}</p>
+                <p>Quantity: {{ product.quantity }}</p>
+                <a href="/delete/{{ product.id }}">
+                <!---    <button class="delete-button">Buy Now</button>-->
+                </a>
+            </div>
+        {% endfor %}
+    </div>
+    {% else %}
+        <p>No products available.</p>
+    {% endif %}
+</body>
+</html>

@@ -1,0 +1,79 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>First Aid Project</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.3.1/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        /* Additional custom styles can go here */
+    </style>
+</head>
+<body class="bg-gray-100 font-sans">
+    <!-- Header -->
+    <header class="bg-white shadow-md">
+        <div class="container mx-auto flex justify-between items-center p-4">
+            <div class="flex items-center">
+                <img src="img/logo.png" alt="First Aid Logo" class="h-12">
+            </div>
+            <nav>
+                <ul class="flex space-x-4">
+                    <li><a href="#home" class="text-blue-600 hover:underline">Home</a></li>
+                    <li><a href="/profile/" class="text-blue-600 hover:underline">Profile</a></li>
+                    <li><a href="#about" class="text-blue-600 hover:underline">About</a></li>
+                    <li><a href="#tips" class="text-blue-600 hover:underline">Tips</a></li>
+                    <li><a href="#contact" class="text-blue-600 hover:underline">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="relative h-screen bg-cover bg-center" style="background-image: url('img/hero-bg.jpg');">
+        <div class="flex items-center justify-center h-full bg-gray-900 bg-opacity-50">
+            <div class="text-center text-white p-8">
+                <h1 class="text-5xl font-bold mb-4">Welcome to First Aid</h1>
+                <p class="text-xl">Your guide to essential life-saving skills</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-16 bg-white">
+        <div class="container mx-auto text-center">
+            <h2 class="text-4xl font-bold mb-4">About Us</h2>
+            <p class="text-lg">We provide comprehensive first aid training and resources to help you respond effectively in emergencies.</p>
+        </div>
+    </section>
+
+    <!-- Tips Section -->
+    <section id="tips" class="py-16 bg-gray-100">
+        <div class="container mx-auto text-center">
+            <h2 class="text-4xl font-bold mb-8">First Aid Tips</h2>
+            <div class="flex flex-wrap justify-center gap-8">
+                <div class="bg-white p-6 rounded-lg shadow-md max-w-xs">
+                    <img src="img/cpr-icon.png" alt="CPR Icon" class="mx-auto h-16 mb-4">
+                    <h3 class="text-2xl font-semibold mb-2">CPR</h3>
+                    <p>Learn how to perform CPR effectively to save lives in cardiac emergencies.</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md max-w-xs">
+                    <img src="img/bleeding-icon.png" alt="Bleeding Icon" class="mx-auto h-16 mb-4">
+                    <h3 class="text-2xl font-semibold mb-2">Stop Bleeding</h3>
+                    <p>Get tips on how to control bleeding and prevent shock.</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md max-w-xs">
+                    <img src="img/burns-icon.png" alt="Burns Icon" class="mx-auto h-16 mb-4">
+                    <h3 class="text-2xl font-semibold mb-2">Burns</h3>
+                    <p>Understand the proper treatment for different types of burns.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-4 text-center">
+        <p>&copy; 2024 First Aid Project. <a href="#" class="text-blue-400 hover:underline">Privacy Policy</a> | <a href="#" class="text-blue-400 hover:underline">Terms of Service</a></p>
+    </footer>
+</body>
+</html>

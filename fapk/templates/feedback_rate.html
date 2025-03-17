@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feedback and Rating Form</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .container {
+            margin-top: 50px;
+            max-width: 500px;
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+        .star-rating {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+        .star-rating input {
+            display: none;
+        }
+        .star-rating label {
+            font-size: 2.5rem;
+            color: #e4e5e9;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+        .star-rating input:checked ~ label {
+            color: #ffc107;
+        }
+        .star-rating input:checked ~ label ~ label {
+            color: #e4e5e9;
+        }
+        .star-rating label:hover,
+        .star-rating label:hover ~ label {
+            color: #ffc107;
+        }
+        .star-rating svg {
+            fill: currentColor;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="mb-4 text-center">Feedback Form</h1>
+        <form action="/feedback_rate/" method="post">
+            {% csrf_token %}
+
+            <div class="form-floating mb-3">
+                <input type="text" id="name" name="name" class="form-control" placeholder="Enter your name" required>
+                <label for="name">Your Name</label>
+            </div>
+
+            <div class="form-floating mb-3">
+                <textarea id="feedback" name="feedback_text" class="form-control" placeholder="Write your feedback here..." style="height: 150px;" required></textarea>
+                <label for="feedback">Your Feedback</label>
+            </div>
+
+            <div class="mb-4 text-center">
+                <label class="form-label d-block">Rating:</label>
+                <div class="star-rating">
+                    <input type="radio" id="rating1" name="rating" value="1">
+                    <label for="rating1" title="1 star">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.86L12 17.77l-6.18 3.23L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                        </svg>
+                    </label>
+                    <input type="radio" id="rating2" name="rating" value="2">
+                    <label for="rating2" title="2 stars">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.86L12 17.77l-6.18 3.23L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                        </svg>
+                    </label>
+                    <input type="radio" id="rating3" name="rating" value="3">
+                    <label for="rating3" title="3 stars">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.86L12 17.77l-6.18 3.23L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                        </svg>
+                    </label>
+                    <input type="radio" id="rating4" name="rating" value="4">
+                    <label for="rating4" title="4 stars">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.86L12 17.77l-6.18 3.23L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                        </svg>
+                    </label>
+                    <input type="radio" id="rating5" name="rating" value="5">
+                    <label for="rating5" title="5 stars">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.86L12 17.77l-6.18 3.23L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                        </svg>
+                    </label>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100">Submit Feedback</button>
+        </form>
+    </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
